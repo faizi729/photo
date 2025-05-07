@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import card from '../assets/video.mp4';
+const  card =  "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525356/video8_bzplqk.mp4";
 const  card2 =  "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525356/video8_bzplqk.mp4";
 
 const card3  = "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525333/video7_qfqhpm.mp4";
