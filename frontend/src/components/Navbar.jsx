@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import img1 from "../assets/img.jpg";
+import img1 from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { ShoppingBag, Menu, X, LogOut } from "lucide-react";
 
@@ -27,7 +27,7 @@ const Navbar = () => {
 
         {/* Logo */}
         <div className="ml-2">
-          <img src={img1} alt="logo" className="w-10 h-10 rounded-full" />
+          <img src={img1} alt="logo" className="w-30 h-15 rounded-full" />
         </div>
 
         {/* Main Links */}
