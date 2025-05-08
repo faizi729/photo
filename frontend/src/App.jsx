@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Form from "./pages/Form";
+import Demo from "./pages/Demo";
  
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/demo" element={<Demo />} />
+            {/* Add more routes as needed */}
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/form/:id" element={<Form />} /> 
