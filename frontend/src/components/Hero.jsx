@@ -14,33 +14,36 @@ const Hero = () => {
           duration: 1000,
           once: true,
         })
-      }, [])
-  return (
-        < >
-        
-        <div className='flex justify-center'>
-            <h1 className='font-bold text-[35px] mb-10 mt-10' data-aos="fade-up">Our Featured Work</h1>
-        </div>
-    <div className="flex justify-center items-center">
-        <div className="flex flex-row gap-2 h-[800px]">
-            <div className="grid grid-cols-1"data-aos="fade-right">
-                <img src={img1} alt="" />
+    }, [])
+
+    return (
+        <>
+            <div className='flex justify-center'>
+                <h1 className='font-bold text-[28px] md:text-[35px] mb-6 mt-10 text-center' data-aos="fade-up">
+                    Our Featured Work
+                </h1>
             </div>
-            <div className="grid grid-rows-2" data-aos="fade-left">
-                <img src={img3} alt="" />
-                <img src={img4} alt="" className='mt-8'/>
+
+            <div className="flex justify-center items-center px-4">
+                <div className="flex flex-col lg:flex-row gap-4 lg:gap-2 w-full max-w-[1400px]">
+                    <div className="grid grid-cols-1" data-aos="fade-right">
+                        <img src={img1} alt="" className='w-full object-cover' />
+                    </div>
+                    <div className="grid grid-rows-2 gap-4" data-aos="fade-left">
+                        <img src={img3} alt="" className='w-full object-cover' />
+                        <img src={img4} alt="" className='w-full object-cover' />
+                    </div>
+                    <div className="grid grid-cols-1" data-aos="zoom-in">
+                        <img src={img5} alt="" className='w-full object-cover' />
+                    </div>
+                    <div className="grid grid-rows-2 gap-4" data-aos="fade-up">
+                        <img src={img6} alt="" className='w-full object-cover' />
+                        <img src={img2} alt="" className='w-full object-cover' />
+                    </div>
+                </div>
             </div>
-            <div className="grid grid-cols-1" data-aos="zoom-in">
-                <img src={img5} alt="" />
-            </div>
-            <div className="grid grid-rows-2" data-aos="fade-up">
-                <img src={img6} alt="" />
-                <img src={img2} alt="" className='-mt-8' />
-            </div>
-        </div>
-    </div>
         </>
-  )
+    )
 }
 
 export default Hero

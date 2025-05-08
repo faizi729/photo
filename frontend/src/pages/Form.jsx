@@ -3,6 +3,16 @@ import { useParams } from 'react-router-dom';
 import { Clock, Calendar } from 'lucide-react';
 import { products } from '../data/productData';
 
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
 export default function WeddingInvitationForm() {
   const { id } = useParams();
   const product = products.find(p => p.id === parseInt(id));
@@ -20,12 +30,8 @@ export default function WeddingInvitationForm() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleNext = () => {
-    window.alert('Redirecting to Razorpay for payment...');
-  };
-
   const handlePrevious = () => {
-    window.location.href="/services";
+    window.location.href = "/services";
   };
 
   const handleSaveDraft = () => {
@@ -33,9 +39,42 @@ export default function WeddingInvitationForm() {
     window.alert('Draft saved successfully!');
   };
 
+  const displayRazorpay = async () => {
+    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+
+    if (!res) {
+      alert('Razorpay SDK failed to load.');
+      return;
+    }
+
+    const data = await fetch('http://localhost:1769/razorpay', {
+      method: 'POST'
+    }).then((t) => t.json());
+
+    const options = {
+      key: 'rzp_test_0S8LAzmVxIdvYA',
+      amount: data.amount,
+      currency: data.currency,
+      name: 'Acme Corp',
+      description: 'Test Transaction',
+      image: 'https://example.com/your_logo',
+      order_id: data.id,
+      callback_url: 'http://localhost:1769/verify',
+      notes: {
+        address: 'Razorpay Corporate Office',
+      },
+      theme: {
+        color: '#3399cc',
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
   return (
     <div className="mt-24 mb-20 px-4 sm:px-6 lg:px-8">
-      {/* Progress Steps */}
+      {/* Progress bar */}
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
         {['Select video', 'Fill details', 'Complete payment', 'Get video'].map((step, index) => (
           <div className="flex flex-col items-center" key={index}>
@@ -50,34 +89,29 @@ export default function WeddingInvitationForm() {
       <div className="flex flex-col lg:flex-row lg:max-w-7xl lg:mx-auto bg-white shadow-lg rounded-3xl overflow-hidden">
         {/* Left: Video */}
         <div className="lg:w-1/2 w-full p-4 flex justify-center items-center bg-gray-50">
-  {product ? (
-    <video
-      src={product.video}
-      autoPlay
-      loop
-      muted
-      playsInline
-      className="rounded-2xl w-[300px] h-auto shadow"
-    >
-      Your browser does not support the video tag.
-    </video>
-  ) : (
-    <p>Loading video...</p>
-  )}
-</div>
+          {product ? (
+            <video
+              src={product.video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="rounded-2xl w-[300px] h-auto shadow"
+            />
+          ) : (
+            <p>Loading video...</p>
+          )}
+        </div>
 
         {/* Right: Form */}
         <div className="lg:w-1/2 w-full p-6">
           <div className="space-y-4">
-            {[
-              { label: 'Initials', name: 'initials', type: 'text' },
-              { label: 'Couple Name', name: 'coupleName', type: 'text' },
-              { label: 'Venue', name: 'venue', type: 'text' }
-            ].map((field, index) => (
+            {/* Input Fields */}
+            {[{ label: 'Initials', name: 'initials' }, { label: 'Couple Name', name: 'coupleName' }, { label: 'Venue', name: 'venue' }].map((field, index) => (
               <div key={index}>
                 <label className="block text-sm font-medium text-gray-700">{field.label}</label>
                 <input
-                  type={field.type}
+                  type="text"
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}
@@ -86,7 +120,7 @@ export default function WeddingInvitationForm() {
               </div>
             ))}
 
-            {/* Date */}
+            {/* Date and Time */}
             <div>
               <label className="block text-sm font-medium text-gray-700">Date</label>
               <div className="relative">
@@ -101,7 +135,6 @@ export default function WeddingInvitationForm() {
               </div>
             </div>
 
-            {/* Time */}
             <div>
               <label className="block text-sm font-medium text-gray-700">Time</label>
               <div className="relative">
@@ -131,10 +164,10 @@ export default function WeddingInvitationForm() {
                 Previous
               </button>
               <button
-                onClick={handleNext}
+                onClick={displayRazorpay}
                 className="flex-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700"
               >
-                Next
+                Pay Now
               </button>
             </div>
           </div>
