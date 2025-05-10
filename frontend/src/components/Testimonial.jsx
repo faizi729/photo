@@ -1,35 +1,47 @@
 import { useState } from "react";
+import { Quote } from "lucide-react"; // Optional icon from lucide
 
 const testimonials = [
   {
-    name: "Pavel Nedved",
-    title: "Businessmen",
-    image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg", // Replace with real images
+    name: "Sophia Bennett",
+    title: "Wedding Client",
+    image: "https://randomuser.me/api/portraits/women/81.jpg",
+    rating: 5,
+    quote: "Absolutely stunning photos! You captured every emotion so perfectly — we’ll cherish these forever.",
+  },
+  {
+    name: "Daniel Wu",
+    title: "Model",
+    image: "https://randomuser.me/api/portraits/men/52.jpg",
+    rating: 5,
+    quote: "Professional, creative, and super easy to work with. The shoot was fun and the results were mind-blowing!",
+  },
+  {
+    name: "Rina Kapoor",
+    title: "Event Organizer",
+    image: "https://randomuser.me/api/portraits/women/36.jpg",
     rating: 4,
-    quote:
-      "Some people dream of success, while other people get up every morning and make it happen.",
+    quote: "Great eye for detail and storytelling through the lens. Our event looked even better in the photos!",
   },
   {
-    name: "Michel Platini",
-    title: "Designer",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aHVtYW58ZW58MHx8MHx8fDA%3D",
+    name: "Jake Thompson",
+    title: "Business Owner",
+    image: "https://randomuser.me/api/portraits/men/31.jpg",
     rating: 5,
-    quote:
-      "Some people dream of success, while other people get up every morning and make it happen.",
+    quote: "The branding shots elevated our business’s online presence. Clean, professional, and striking.",
   },
   {
-    name: "Alfredo Stefano",
-    title: "Marketer",
-    image: "https://static.vecteezy.com/system/resources/thumbnails/007/209/020/small/close-up-shot-of-happy-dark-skinned-afro-american-woman-laughs-positively-being-in-good-mood-dressed-in-black-casual-clothes-isolated-on-grey-background-human-emotions-and-feeligs-concept-photo.jpg",
+    name: "Emily Chen",
+    title: "Newborn Mom",
+    image: "https://randomuser.me/api/portraits/women/91.jpg",
     rating: 5,
-    quote:
-      "Some people dream of success, while other people get up every morning and make it happen.",
-  },
-  
+    quote: "You froze those precious moments of our baby’s first week beautifully. Thank you for such heartfelt work.",
+  }
 ];
 
+
 export default function Testimonials() {
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
@@ -39,73 +51,73 @@ export default function Testimonials() {
     setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
 
+  const testimonial = testimonials[currentIndex];
+
   return (
-    <section className="py-16 bg-white text-center">
-      <h4 className="text-sm text-blue-600 font-semibold tracking-wide">TESTIMONIALS</h4>
-      <h2 className="text-4xl font-bold mt-2 mb-4">Clients testimonials</h2>
-      <p className="text-gray-500 max-w-2xl mx-auto mb-12">
-        Our approach thrives at the intersection between data-driven market research and traditional management consultancies.
-      </p>
+    <section className="py-16 bg-gray-50 text-center px-4">
+      <h4 className="text-sm text-blue-600 font-semibold tracking-wide mb-2">TESTIMONIALS</h4>
+      <h2 className="text-4xl font-bold mb-10">What Our Clients Say</h2>
 
-      <div className="flex items-center justify-center space-x-8">
-        {/* Left arrow */}
-        <button
-          onClick={prevSlide}
-          className="w-10 h-10 flex items-center justify-center rounded-full border hover:bg-gray-100 transition"
-        >
-          <span>&larr;</span>
-        </button>
+      <div className="max-w-3xl mx-auto relative">
+        <div className="bg-white p-8 rounded-2xl shadow-lg relative">
+          {/* Quote Icon */}
+          <Quote className="absolute top-6 left-6 w-8 h-8 text-blue-500 opacity-20" />
 
-        {/* Testimonial Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className={`p-8 rounded-lg shadow-md transition-all duration-300 ${
-                index === currentIndex ? "bg-white scale-105" : "bg-gray-50"
-              }`}
-            >
-              <div className="flex justify-center mb-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-20 h-20 rounded-full object-cover"
-                />
-              </div>
-              <h3 className="text-lg font-bold">{testimonial.name}</h3>
-              <p className="text-xs uppercase text-gray-400 mb-4">{testimonial.title}</p>
-              <p className="text-gray-600 text-sm mb-4">{testimonial.quote}</p>
-              <div className="flex justify-center space-x-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span key={i} className={`text-orange-400 ${i >= testimonial.rating ? "opacity-30" : ""}`}>
-                    ★
-                  </span>
-                ))}
-              </div>
+          {/* Testimonial text */}
+          <p className="text-lg text-gray-700 italic mb-8">"{testimonial.quote}"</p>
+
+          {/* Person Info */}
+          <div className="flex flex-col items-center mt-4">
+            <img
+              src={testimonial.image}
+              alt={testimonial.name}
+              className="w-16 h-16 rounded-full object-cover mb-3"
+            />
+            <h3 className="text-md font-semibold">{testimonial.name}</h3>
+            <p className="text-sm text-gray-500">{testimonial.title}</p>
+
+            {/* Rating */}
+            <div className="flex space-x-1 mt-2">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <span
+                  key={i}
+                  className={`text-yellow-400 ${i >= testimonial.rating ? "opacity-30" : ""}`}
+                >
+                  ★
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
 
-        {/* Right arrow */}
-        <button
-          onClick={nextSlide}
-          className="w-10 h-10 flex items-center justify-center rounded-full border hover:bg-gray-100 transition"
-        >
-          <span>&rarr;</span>
-        </button>
-      </div>
-
-      {/* Dots Navigation */}
-      <div className="flex justify-center space-x-2 mt-8">
-        {testimonials.map((_, index) => (
+        {/* Navigation */}
+        <div className="flex justify-center items-center mt-10 space-x-4">
           <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full ${
-              index === currentIndex ? "bg-blue-600" : "bg-gray-300"
-            }`}
-          ></button>
-        ))}
+            onClick={prevSlide}
+            className="px-4 py-2 rounded-full bg-blue-100 hover:bg-blue-200 transition"
+          >
+            ←
+          </button>
+          <button
+            onClick={nextSlide}
+            className="px-4 py-2 rounded-full bg-blue-100 hover:bg-blue-200 transition"
+          >
+            →
+          </button>
+        </div>
+
+        {/* Dots */}
+        <div className="flex justify-center mt-4 space-x-2">
+          {testimonials.map((_, index) => (
+            <span
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-3 h-3 rounded-full cursor-pointer ${
+                index === currentIndex ? "bg-blue-600" : "bg-gray-300"
+              }`}
+            ></span>
+          ))}
+        </div>
       </div>
     </section>
   );

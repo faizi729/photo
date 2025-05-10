@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Clock, Calendar } from 'lucide-react';
 import { products } from '../data/productData';
-
+import img from "../assets/logo4.png"
 function loadScript(src) {
   return new Promise((resolve) => {
     const script = document.createElement('script');
@@ -15,7 +15,7 @@ function loadScript(src) {
 
 export default function WeddingInvitationForm() {
   const { id } = useParams();
-  const product = products.find(p => p.id === parseInt(id));
+  const product = products.find((p) => p.id === parseInt(id));
 
   const [formData, setFormData] = useState({
     initials: '',
@@ -27,11 +27,11 @@ export default function WeddingInvitationForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePrevious = () => {
-    window.location.href = "/services";
+    window.location.href = '/services';
   };
 
   const handleSaveDraft = () => {
@@ -47,25 +47,31 @@ export default function WeddingInvitationForm() {
       return;
     }
 
-    const data = await fetch('http://localhost:1769/razorpay', {
-      method: 'POST'
+    const amount = parseInt(product.price)  ; // Razorpay amount in paise
+
+    const data = await fetch('http://localhost:5000/create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ amount })
     }).then((t) => t.json());
 
     const options = {
-      key: 'rzp_test_0S8LAzmVxIdvYA',
-      amount: data.amount,
+      key: 'rzp_live_tfb18vO4HgubFA',
+      amount: amount,
       currency: data.currency,
-      name: 'Acme Corp',
-      description: 'Test Transaction',
-      image: 'https://example.com/your_logo',
+      name: 'Eye Imagination',
+      description: 'Best E-invitation provider',
+      image: {img},
       order_id: data.id,
-      callback_url: 'http://localhost:1769/verify',
+      callback_url: 'http://localhost:5000/verify-payment',
       notes: {
-        address: 'Razorpay Corporate Office',
+        address: 'Raipur'
       },
       theme: {
-        color: '#3399cc',
-      },
+        color: '#3399cc'
+      }
     };
 
     const paymentObject = new window.Razorpay(options);
@@ -78,7 +84,11 @@ export default function WeddingInvitationForm() {
       <div className="flex justify-center gap-6 mb-8 flex-wrap">
         {['Select video', 'Fill details', 'Complete payment', 'Get video'].map((step, index) => (
           <div className="flex flex-col items-center" key={index}>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${index <= 1 ? 'bg-red-400 text-white' : 'bg-gray-300'}`}>
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                index <= 1 ? 'bg-red-400 text-white' : 'bg-gray-300'
+              }`}
+            >
               {index < 2 ? '✓' : ''}
             </div>
             <span className="text-xs text-center mt-1">{step}</span>
@@ -147,6 +157,17 @@ export default function WeddingInvitationForm() {
                 />
                 <Clock className="absolute right-3 top-3 h-5 w-5 text-gray-400" />
               </div>
+            </div>
+
+            {/* Display Price */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Price</label>
+              <input
+                type="text"
+                value={`${product?.price || ''}`}
+                readOnly
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+              />
             </div>
 
             {/* Buttons */}

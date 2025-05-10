@@ -17,7 +17,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto mt-56 mb-20 bg-white rounded-lg shadow-lg p-6">
+    <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto mt-20 lg:mt-56 mb-20 bg-white rounded-lg shadow-lg p-6">
       <div className="md:w-1/2 p-4">
         <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
         <p className="text-gray-600 mb-6">Feel free to contact us anytime. We will get back to you as soon as we can.</p>

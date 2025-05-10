@@ -12,7 +12,7 @@ const Demo = () => {
           {demoProducts.map((product) => (
             <div
               key={product.id}
-              className="w-[300px] h-[550px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
+              className="w-[300px] h-[520px] bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
             >
               <video
                 src={product.video}

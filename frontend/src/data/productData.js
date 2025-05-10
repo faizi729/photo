@@ -20,17 +20,17 @@ const card1 = "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525369/vid
 
 
 export const products = [
-  { id: 1, title: 'Wedding Invitation (WD-2)', price: '₹150', video: card, alt: 'Wedding Invitation WD-1' },
-  { id: 2, title: 'Wedding Invitation (WD-1)', price: '₹200', video: card1, alt: 'Wedding Invitation WD-1' },
-  { id: 3, title: 'Wedding Invitation (WD-5)', price: '₹250', video: card2, alt: 'Wedding Invitation WD-1' },
-  { id: 4, title: 'Wedding Invitation (WD-7)', price: '₹300', video: card3, alt: 'Wedding Invitation WD-1' },
-  { id: 5, title: 'Wedding Invitation (WD-9)', price: '₹350', video: card4, alt: 'Wedding Invitation WD-1' },
-  { id: 6, title: 'Wedding Invitation (WD-12)', price: '₹400', video: card5, alt: 'Wedding Invitation WD-1' },
-  { id: 7, title: 'Wedding Invitation (WD-10)', price: '₹450', video: card6, alt: 'Wedding Invitation WD-1' },
-  { id: 8, title: 'Wedding Invitation (WD-9)', price: '₹500', video: card7, alt: 'Wedding Invitation WD-1' },
-  { id: 9, title: 'Wedding Invitation (WD-8)', price: '₹550', video: card8, alt: 'Wedding Invitation WD-1' },
-  { id: 10, title: 'Wedding Invitation (WD-3)', price: '₹600', video: card9, alt: 'Wedding Invitation WD-1' },
-  { id: 11, title: 'Wedding Invitation (WD-6)', price: '₹650', video: card10, alt: 'Wedding Invitation WD-1' },
-  { id: 12, title: 'Wedding Invitation (WD-15)', price: '₹700', video: card11, alt: 'Wedding Invitation WD-1' },
-  { id: 13, title: 'Wedding Invitation (WD-14)', price: '₹750', video: card12, alt: 'Wedding Invitation WD-1' }
+  { id: 1, title: 'Wedding Invitation (WD-2)', price: parseInt('150'), video: card, alt: 'Wedding Invitation WD-1' },
+  { id: 2, title: 'Wedding Invitation (WD-1)', price: parseInt('200'), video: card1, alt: 'Wedding Invitation WD-1' },
+  { id: 3, title: 'Wedding Invitation (WD-5)', price: parseInt('1'), video: card2, alt: 'Wedding Invitation WD-1' },
+  { id: 4, title: 'Wedding Invitation (WD-7)', price: parseInt('300'), video: card3, alt: 'Wedding Invitation WD-1' },
+  { id: 5, title: 'Wedding Invitation (WD-9)', price: parseInt('350'), video: card4, alt: 'Wedding Invitation WD-1' },
+  { id: 6, title: 'Wedding Invitation (WD-12)', price: parseInt('400'), video: card5, alt: 'Wedding Invitation WD-1' },
+  { id: 7, title: 'Wedding Invitation (WD-10)', price: parseInt('450'), video: card6, alt: 'Wedding Invitation WD-1' },
+  { id: 8, title: 'Wedding Invitation (WD-9)', price: parseInt('500'), video: card7, alt: 'Wedding Invitation WD-1' },
+  { id: 9, title: 'Wedding Invitation (WD-8)', price: parseInt('550'), video: card8, alt: 'Wedding Invitation WD-1' },
+  { id: 10, title: 'Wedding Invitation (WD-3)', price: parseInt('600'), video: card9, alt: 'Wedding Invitation WD-1' },
+  { id: 11, title: 'Wedding Invitation (WD-6)', price: parseInt('650'), video: card10, alt: 'Wedding Invitation WD-1' },
+  { id: 12, title: 'Wedding Invitation (WD-15)', price: parseInt('700'), video: card11, alt: 'Wedding Invitation WD-1' },
+  { id: 13, title: 'Wedding Invitation (WD-14)', price: parseInt('750'), video: card12, alt: 'Wedding Invitation WD-1' }
 ];

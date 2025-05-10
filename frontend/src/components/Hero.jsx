@@ -34,11 +34,11 @@ const Hero = () => {
                         <img src={img4} alt="" className='w-full object-cover' />
                     </div>
                     <div className="grid grid-cols-1" data-aos="zoom-in">
-                        <img src={img5} alt="" className='w-full object-cover' />
+                        <img src={img5} alt="" className='w-full object-cover max-md:-mt-32' />
                     </div>
                     <div className="grid grid-rows-2 gap-4" data-aos="fade-up">
-                        <img src={img6} alt="" className='w-full object-cover' />
-                        <img src={img2} alt="" className='w-full object-cover' />
+                        <img src={img6} alt="" className='w-full object-cover ' />
+                        <img src={img2} alt="" className='w-full object-cover lg:-mt-12'  />
                     </div>
                 </div>
             </div>

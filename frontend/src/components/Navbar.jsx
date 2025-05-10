@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import img1 from "../assets/logo.png";
+import img1 from "../assets/logo4.png";
 import { Link } from "react-router-dom";
 import { ShoppingBag, Menu, X, LogOut } from "lucide-react";
 
@@ -28,7 +28,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="ml-2">
           <Link to="/">
-          <img src={img1} alt="logo" className="w-30 h-15 rounded-full" />
+          <img src={img1} alt="logo" className="w-20 h-15 rounded-full" />
           </Link>
         </div>
 
@@ -64,7 +64,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="absolute top-14 left-4 right-4 bg-white/10 backdrop-blur-lg rounded-xl 
+        <div className="absolute top-20 left-4 right-4 bg-white/10 backdrop-blur-lg rounded-xl 
           shadow-md p-4 flex flex-col gap-4 md:hidden z-40 text-black border border-white/20">
           <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
           <Link to="/About" onClick={() => setIsOpen(false)}>About</Link>
