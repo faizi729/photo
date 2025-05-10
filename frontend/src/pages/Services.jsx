@@ -36,7 +36,7 @@ const services = [
 const products = [
   { id: 1, title: 'Wedding Invitation (WD-2)', price: '₹150', video: card, alt: 'Wedding Invitation WD-1' },
   { id: 2, title: 'Wedding Invitation (WD-1)', price: '₹200', video: card1, alt: 'Wedding Invitation WD-1' },
-  { id: 3, title: 'Wedding Invitation (WD-5)', price: '₹250', video: card2, alt: 'Wedding Invitation WD-1' },
+  { id: 3, title: 'Wedding Invitation (WD-5)', price: '₹1', video: card2, alt: 'Wedding Invitation WD-1' },
   { id: 4, title: 'Wedding Invitation (WD-7)', price: '₹300', video: card3, alt: 'Wedding Invitation WD-1' },
   { id: 5, title: 'Wedding Invitation (WD-9)', price: '₹350', video: card4, alt: 'Wedding Invitation WD-1' },
   { id: 6, title: 'Wedding Invitation (WD-12)', price: '₹400', video: card5, alt: 'Wedding Invitation WD-1' },
