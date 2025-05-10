@@ -49,7 +49,7 @@ export default function WeddingInvitationForm() {
 
     const amount = parseInt(product.price)  ; // Razorpay amount in paise
 
-    const data = await fetch('http://localhost:5000/create-order', {
+    const data = await fetch('https://photo-n1fe.onrender.com/create-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ export default function WeddingInvitationForm() {
       description: 'Best E-invitation provider',
       image: {img},
       order_id: data.id,
-      callback_url: 'http://localhost:5000/verify-payment',
+      callback_url: 'https://photo-n1fe.onrender.com/verify-payment',
       notes: {
         address: 'Raipur'
       },
