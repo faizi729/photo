@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Form from "./pages/Form";
 import Demo from "./pages/Demo";
+import ProductGrid from "./pages/Gift";
  
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/demo" element={<Demo />} />
+            <Route path="/gift" element={<ProductGrid />} />
             {/* Add more routes as needed */}
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
