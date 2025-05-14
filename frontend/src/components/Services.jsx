@@ -29,7 +29,7 @@ const Services = () => {
     />
     <div className="flex flex-col items-center mt-3">
       <h1 className="text-lg font-medium text-gray-800">{title}</h1>
-      <h2 className="text-xl font-semibold text-gray-900">{price}</h2>
+       
     </div>
     <Link to="/services">
     <button className="mt-4 w-44 px-2 py-3 bg-amber-950 text-white rounded-md cursor-pointer hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600">
