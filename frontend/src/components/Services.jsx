@@ -3,28 +3,41 @@ import img1 from "../assets/image21.png";
 import img2 from "../assets/image22.png";
 import img3 from "../assets/image23.png";
 import img4 from "../assets/image24.png";
-import card from "../assets/mobile.png";
+import { Link } from "react-router-dom";
+const card1 = "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525317/video4_l1neo5.mp4";
+const card2 =  "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525306/video6_xd6e4q.mp4";
+const card3 =  "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525291/video11_cn3iny.mp4";
+const  card4 =  "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525276/video2_njywoo.mp4";
 
 const Services = () => {
   const products = [
-    { id: 1, title: 'Wedding Invitation (WD-1)', price: '₹200', image: card, alt: 'Wedding Invitation WD-1' },
-    { id: 2, title: 'Wedding Invitation (WD-2)', price: '₹250', image: card, alt: 'Wedding Invitation WD-2' },
-    { id: 3, title: 'Wedding Invitation (WD-3)', price: '₹300', image: card, alt: 'Wedding Invitation WD-3' },
-    { id: 4, title: 'Wedding Invitation (WD-4)', price: '₹350', image: card, alt: 'Wedding Invitation WD-4' },
+    { id: 1, title: 'Wedding Invitation (WD-1)', price: '₹200', video: card1, alt: 'Wedding Invitation WD-1' },
+    { id: 2, title: 'Wedding Invitation (WD-2)', price: '₹250', video: card2, alt: 'Wedding Invitation WD-2' },
+    { id: 3, title: 'Wedding Invitation (WD-3)', price: '₹300', video: card3, alt: 'Wedding Invitation WD-3' },
+    { id: 4, title: 'Wedding Invitation (WD-4)', price: '₹350', video: card4, alt: 'Wedding Invitation WD-4' },
   ];
 
-  const ProductCard = ({ title, price, image, alt }) => (
-    <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full max-w-[300px] mx-auto">
-      <img src={image} alt={alt} className="w-[250px] h-auto object-cover rounded-md" />
-      <div className="flex flex-col items-center mt-3">
-        <h1 className="text-lg font-medium text-gray-800">{title}</h1>
-        <h2 className="text-xl font-semibold text-gray-900">{price}</h2>
-      </div>
-      <button className="mt-4 w-44 px-2 py-3 bg-amber-950 text-white rounded-md cursor-pointer hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600">
-        Add to Cart
-      </button>
+  const ProductCard = ({ title, price, video, alt }) => (
+  <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full max-w-[300px] mx-auto">
+    <video 
+      src={video}
+      muted
+      autoPlay
+      loop
+      playsInline
+      className="w-[250px] h-auto object-cover rounded-md"
+    />
+    <div className="flex flex-col items-center mt-3">
+      <h1 className="text-lg font-medium text-gray-800">{title}</h1>
+      <h2 className="text-xl font-semibold text-gray-900">{price}</h2>
     </div>
-  );
+    <Link to="/services">
+    <button className="mt-4 w-44 px-2 py-3 bg-amber-950 text-white rounded-md cursor-pointer hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600">
+      check Pricing
+    </button>
+    </Link>
+  </div>
+);
 
   const videos = [
     { id: 1, src: "https://videos.pexels.com/video-files/29560142/12723934_360_640_60fps.mp4", alt: "Bridge" },
@@ -33,7 +46,7 @@ const Services = () => {
     { id: 4, src: "https://videos.pexels.com/video-files/31644045/13481933_640_360_60fps.mp4", alt: "Rocks" },
   ];
 
-  const [activeTab, setActiveTab] = useState("photo");
+  const [activeTab, setActiveTab] = useState("invitation");
 
   return (
     <>
@@ -44,7 +57,7 @@ const Services = () => {
           
           {/* Tab Buttons */}
           <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 sm:mb-10">
-            {["photo", "invitation", "video", "film"].map(tab => (
+            {["invitation", "photo", "video", "film"].map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -61,20 +74,34 @@ const Services = () => {
 
           {/* Tab Content */}
           <div className="text-center text-xl text-gray-700 mt-6 sm:mt-10">
-            {activeTab === "photo" && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl mx-auto">
-                {[img1, img2, img3, img4].map((src, index) => (
-                  <img key={index} src={src} alt={`img${index + 1}`} className="w-full h-[200px] sm:h-[250px] object-cover rounded-xl" />
-                ))}
-              </div>
-            )}
 
             {activeTab === "invitation" && (
+              <>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mt-10">
                 {products.map((product) => (
                   <ProductCard key={product.id} {...product} />
                 ))}
               </div>
+              <div className="mt-5 bg-black py-3 px-5 flex justify-center w-[200px] mx-auto cursor-pointer text-white">
+                <Link to="/services">
+                <button className="cursor-pointer">Load More</button>
+                </Link>
+              </div>
+                </>
+            )}
+            {activeTab === "photo" && (
+              <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                {[img1, img2, img3, img4].map((src, index) => (
+                  <img key={index} src={src} alt={`img${index + 1}`} className="w-full h-[200px] sm:h-[250px] object-cover rounded-xl" />
+                ))}
+              </div>
+              <div className="mt-5 bg-black py-3 px-5 flex justify-center w-[200px] mx-auto cursor-pointer text-white">
+                <Link to="/services">
+                <button className="cursor-pointer">Load More</button>
+                </Link>
+              </div>
+                </>
             )}
 
             {activeTab === "video" && (
