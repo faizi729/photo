@@ -20,8 +20,9 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-white/10 backdrop-blur-md rounded-b-xl border-b border-white/30 shadow-md text-black font-bold text-[18px]">
-        
+      {/* Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-[1000] flex items-center justify-between px-4 py-3 bg-white/10 backdrop-blur-md rounded-b-xl border-b border-white/30 shadow-md text-black font-bold text-[18px]">
+
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Link to="/">
@@ -49,9 +50,9 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Hamburger Button */}
+        {/* Hamburger Button (Mobile) */}
         <div className="md:hidden flex items-center">
-          <button onClick={() => setIsOpen(!isOpen)}>
+          <button onClick={() => setIsOpen(!isOpen)} className="text-black">
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
@@ -59,7 +60,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden fixed top-20 left-4 right-4 bg-white/80 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-5 z-40 transition-all duration-300 ease-in-out ${
+        className={`md:hidden fixed top-20 left-4 right-4 bg-white/90 backdrop-blur-md border border-white/20 shadow-lg rounded-xl p-5 z-[999] transition-all duration-300 ease-in-out ${
           isOpen ? "block" : "hidden"
         }`}
       >

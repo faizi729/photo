@@ -4,10 +4,11 @@ import img2 from "../assets/image22.png";
 import img3 from "../assets/image23.png";
 import img4 from "../assets/image24.png";
 import { Link } from "react-router-dom";
+
 const card1 = "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525317/video4_l1neo5.mp4";
-const card2 =  "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525306/video6_xd6e4q.mp4";
-const card3 =  "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525291/video11_cn3iny.mp4";
-const  card4 =  "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525276/video2_njywoo.mp4";
+const card2 = "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525306/video6_xd6e4q.mp4";
+const card3 = "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525291/video11_cn3iny.mp4";
+const card4 = "https://res.cloudinary.com/daeyt0uqy/video/upload/v1746525276/video2_njywoo.mp4";
 
 const Services = () => {
   const products = [
@@ -18,26 +19,25 @@ const Services = () => {
   ];
 
   const ProductCard = ({ title, price, video, alt }) => (
-  <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full max-w-[300px] mx-auto">
-    <video 
-      src={video}
-      muted
-      autoPlay
-      loop
-      playsInline
-      className="w-[250px] h-auto object-cover rounded-md"
-    />
-    <div className="flex flex-col items-center mt-3">
-      <h1 className="text-lg font-medium text-gray-800">{title}</h1>
-       
+    <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full max-w-[300px] mx-auto">
+      <video 
+        src={video}
+        muted
+        autoPlay
+        loop
+        playsInline
+        className="w-[250px] h-auto object-cover rounded-md"
+      />
+      <div className="flex flex-col items-center mt-3">
+        <h1 className="text-lg font-medium text-gray-800">{title}</h1>
+      </div>
+      <Link to="/services">
+        <button className="mt-4 w-44 px-2 py-3 bg-amber-950 text-white rounded-md cursor-pointer hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600">
+          check Pricing
+        </button>
+      </Link>
     </div>
-    <Link to="/services">
-    <button className="mt-4 w-44 px-2 py-3 bg-amber-950 text-white rounded-md cursor-pointer hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600">
-      check Pricing
-    </button>
-    </Link>
-  </div>
-);
+  );
 
   const videos = [
     { id: 1, src: "https://videos.pexels.com/video-files/29560142/12723934_360_640_60fps.mp4", alt: "Bridge" },
@@ -53,7 +53,7 @@ const Services = () => {
       <div className="flex justify-center font-bold text-[32px] sm:text-[40px] mb-10 text-center">Services</div>
 
       <div className="flex flex-col items-center px-4 sm:px-6 md:px-8">
-        <div className="w-full max-w-7xl bg-gray-100 rounded-2xl p-4 sm:p-6 shadow-[inset_6px_6px_12px_#d1d5db,_inset_-6px_-6px_12px_#ffffff]">
+        <div className="w-full max-w-[1500px] bg-gray-100 rounded-2xl p-4 sm:p-6 shadow-[inset_6px_6px_12px_#d1d5db,_inset_-6px_-6px_12px_#ffffff]">
           
           {/* Tab Buttons */}
           <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 sm:mb-10">
@@ -77,31 +77,32 @@ const Services = () => {
 
             {activeTab === "invitation" && (
               <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mt-10">
-                {products.map((product) => (
-                  <ProductCard key={product.id} {...product} />
-                ))}
-              </div>
-              <div className="mt-5 bg-black py-3 px-5 flex justify-center w-[200px] mx-auto cursor-pointer text-white">
-                <Link to="/services">
-                <button className="cursor-pointer">Load More</button>
-                </Link>
-              </div>
-                </>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 justify-center mt-10">
+                  {products.map((product) => (
+                    <ProductCard key={product.id} {...product} />
+                  ))}
+                </div>
+                <div className="mt-5 bg-black py-3 px-5 flex justify-center w-[200px] mx-auto cursor-pointer text-white">
+                  <Link to="/services">
+                    <button className="cursor-pointer">Load More</button>
+                  </Link>
+                </div>
+              </>
             )}
+
             {activeTab === "photo" && (
               <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl mx-auto">
-                {[img1, img2, img3, img4].map((src, index) => (
-                  <img key={index} src={src} alt={`img${index + 1}`} className="w-full h-[200px] sm:h-[250px] object-cover rounded-xl" />
-                ))}
-              </div>
-              <div className="mt-5 bg-black py-3 px-5 flex justify-center w-[200px] mx-auto cursor-pointer text-white">
-                <Link to="/services">
-                <button className="cursor-pointer">Load More</button>
-                </Link>
-              </div>
-                </>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                  {[img1, img2, img3, img4].map((src, index) => (
+                    <img key={index} src={src} alt={`img${index + 1}`} className="w-full h-[200px] sm:h-[250px] object-cover rounded-xl" />
+                  ))}
+                </div>
+                <div className="mt-5 bg-black py-3 px-5 flex justify-center w-[200px] mx-auto cursor-pointer text-white">
+                  <Link to="/services">
+                    <button className="cursor-pointer">Load More</button>
+                  </Link>
+                </div>
+              </>
             )}
 
             {activeTab === "video" && (
@@ -109,7 +110,6 @@ const Services = () => {
                 <div className="flex flex-col lg:flex-row items-center gap-6">
                   {/* Left Section */}
                   <div className="flex flex-col gap-4 w-full lg:w-3/5">
-                    {/* Large video */}
                     <div className="w-full aspect-video relative group">
                       <video src={videos[0].src} className="w-full h-full object-cover rounded-xl" autoPlay muted loop playsInline />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition">
@@ -117,7 +117,6 @@ const Services = () => {
                       </div>
                     </div>
 
-                    {/* Three smaller videos */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {[videos[2], videos[3], videos[3]].map((v, i) => (
                         <div key={i} className="w-full aspect-[2/3] relative group">
@@ -139,7 +138,6 @@ const Services = () => {
                   </div>
                 </div>
 
-                {/* CTA Buttons */}
                 <div className="flex justify-center gap-4 mt-6 flex-wrap">
                   <button className="px-6 py-2 border border-black text-black rounded hover:bg-gray-100">Contact Us</button>
                   <button className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800">Load More</button>
@@ -149,18 +147,19 @@ const Services = () => {
 
             {activeTab === "film" && (
               <div className="flex justify-center mt-10">
-                <div className="w-full max-w-5xl aspect-video">
+                <div className="w-full max-w-5xl mx-auto px-4 relative pt-[56.25%]">
                   <iframe
-                    className="w-full h-full rounded-xl"
-                    src="https://www.youtube.com/embed/UH9TjmPbws4?autoplay=1&mute=1"
-                    title="YouTube video player"
+                    src="https://player.vimeo.com/video/1084157352?h=ed5d9c99de&badge=0&autopause=0&autoplay=1&muted=1&player_id=0&app_id=58479"
                     frameBorder="0"
-                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                     allowFullScreen
+                    title="mahi & milan save the date hd eye logo"
+                    className="absolute top-0 left-0 w-full h-full"
                   ></iframe>
                 </div>
               </div>
             )}
+
           </div>
         </div>
       </div>

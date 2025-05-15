@@ -11,11 +11,12 @@ import Register from "./pages/Register";
 import Form from "./pages/Form";
 import Demo from "./pages/Demo";
 import ProductGrid from "./pages/Gift";
- 
+
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
+      {/* ✅ Main wrapper to prevent scroll overflow */}
+      <div className="flex flex-col min-h-screen overflow-x-hidden">
         <Navbar />
         <main className="flex-grow">
           <Routes>
@@ -25,11 +26,9 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/demo" element={<Demo />} />
             <Route path="/gift" element={<ProductGrid />} />
-            {/* Add more routes as needed */}
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/form/:id" element={<Form />} /> 
-            {/* Add more pages as you want */}
+            <Route path="/form/:id" element={<Form />} />
           </Routes>
         </main>
         <Footer />
