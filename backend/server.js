@@ -119,7 +119,7 @@ app.post('/verify-payment', (req, res) => {
 
     if (expectedSignature === razorpay_signature) {
       if(order.status = 'paid'){
-        window.location.href = "/success.html"
+        window.location.href = "/payment-success"
       }
       order.payment_id = razorpay_payment_id;
       console.log("✅ Payment verified successfully");
