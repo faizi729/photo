@@ -11,6 +11,7 @@ import path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
+import Invitation from './models/Invitation.model.js';
 
 // Enable __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
