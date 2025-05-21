@@ -150,6 +150,51 @@ app.get('/payment-success', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
+// server.js or routes.js
+app.post('/save-invitation', async (req, res) => {
+  const {
+    initials, coupleName, venue, date, time, price, templateId, timestamp
+  } = req.body;
+
+  try {
+    // Check if same user and template already exists, then update
+    const existing = await Invitation.findOne({ coupleName, templateId });
+
+    if (existing) {
+      // Update old record
+      existing.initials = initials;
+      existing.venue = venue;
+      existing.date = date;
+      existing.time = time;
+      existing.price = price;
+      existing.timestamp = timestamp;
+
+      await existing.save();
+      return res.json({ success: true, message: 'Updated existing invitation' });
+    }
+
+    // Else create new
+    const newEntry = new Invitation({
+      initials,
+      coupleName,
+      venue,
+      date,
+      time,
+      price,
+      templateId,
+      timestamp
+    });
+
+    await newEntry.save();
+
+    res.json({ success: true, message: 'Saved new invitation' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Failed to save invitation' });
+  }
+});
+
+
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

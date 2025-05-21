@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Clock, Calendar } from 'lucide-react';
 import { products } from '../data/productData';
-import img from "../assets/logo4.png"
- 
+import img from "../assets/logo4.png";
 
 export default function WeddingInvitationForm() {
   const { id } = useParams();
@@ -31,87 +30,95 @@ export default function WeddingInvitationForm() {
     window.alert('Draft saved successfully!');
   };
 
- const displayRazorpay = async () => {
-  const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
-
-  if (!res) {
-    alert('Razorpay SDK failed to load.');
-    return;
-  }
-
-  const amount = product.price;
-
-  // Create order on backend
-  const orderRes = await fetch('https://photo-n1fe.onrender.com/create-order', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ amount: amount })
-  });
-
-  const data = await orderRes.json();
-  console.log("✅ Razorpay Order Response:", data);
-
-  if (!data?.id) {
-    throw new Error(`❌ Failed to create order: ${JSON.stringify(data)}`);
-  }
-
-  // Razorpay options
-  const options = {
-    key: 'rzp_test_WcGyN97AYAiHPE', // Replace with your actual test key
-    amount: data.amount, // Amount in paise
-    currency: data.currency,
-    name: 'Eye Imagination',
-    description: 'Best E-invitation provider',
-    image: img, // your image URL or import
-    order_id: data.id,
-    handler: async function (response) {
-      const verifyRes = await fetch('https://photo-n1fe.onrender.com/verify-payment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          razorpay_order_id: response.razorpay_order_id,
-          razorpay_payment_id: response.razorpay_payment_id,
-          razorpay_signature: response.razorpay_signature,
-        }),
-      });
-
-      const result = await verifyRes.json();
-
-      if (result.status === 'paid') {
-        alert("✅ Payment Successful! 🎉");
-        window.location.href = '/payment-success'; // Or navigate with React Router
-      } else {
-        alert("❌ Payment verification failed.");
-      }
-    },
-    notes: {
-      address: 'Raipur'
-    },
-    theme: {
-      color: '#3399cc'
+  const displayRazorpay = async () => {
+    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+    if (!res) {
+      alert('Razorpay SDK failed to load.');
+      return;
     }
+
+    const amount = product.price;
+
+    // Create order on backend
+    const orderRes = await fetch('https://photo-n1fe.onrender.com/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: amount }),
+    });
+
+    const data = await orderRes.json();
+    if (!data?.id) {
+      throw new Error(`❌ Failed to create order: ${JSON.stringify(data)}`);
+    }
+
+    const options = {
+      key: 'rzp_test_WcGyN97AYAiHPE', // Replace with live key in production
+      amount: data.amount,
+      currency: data.currency,
+      name: 'Eye Imagination',
+      description: 'Best E-invitation provider',
+      image: img,
+      order_id: data.id,
+      handler: async function (response) {
+        // ✅ Verify payment
+        const verifyRes = await fetch('https://photo-n1fe.onrender.com/verify-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          }),
+        });
+
+        const result = await verifyRes.json();
+
+        if (result.status === 'paid') {
+          // ✅ Save form data after payment
+          const saveRes = await fetch('https://photo-n1fe.onrender.com/save-invitation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...formData,
+              price: product.price,
+              templateId: product.id,
+              timestamp: new Date().toISOString(),
+            }),
+          });
+
+          const saveResult = await saveRes.json();
+
+          if (saveResult.success) {
+            alert("✅ Payment Successful and Data Saved!");
+            window.location.href = '/payment-success';
+          } else {
+            alert("⚠️ Payment successful, but failed to save data.");
+          }
+        } else {
+          alert("❌ Payment verification failed.");
+        }
+      },
+      notes: {
+        address: 'Raipur'
+      },
+      theme: {
+        color: '#3399cc'
+      }
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
   };
 
-  const paymentObject = new window.Razorpay(options);
-  paymentObject.open();
-};
-
-// Load Razorpay script utility (keep this in same file or utils.js)
-function loadScript(src) {
-  return new Promise((resolve) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-}
-
-
+  function loadScript(src) {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  }
 
   return (
     <div className="mt-24 mb-20 px-4 sm:px-6 lg:px-8">
@@ -151,7 +158,6 @@ function loadScript(src) {
         {/* Right: Form */}
         <div className="lg:w-1/2 w-full p-6">
           <div className="space-y-4">
-            {/* Input Fields */}
             {[{ label: 'Initials', name: 'initials' }, { label: 'Couple Name', name: 'coupleName' }, { label: 'Venue', name: 'venue' }].map((field, index) => (
               <div key={index}>
                 <label className="block text-sm font-medium text-gray-700">{field.label}</label>
@@ -165,7 +171,6 @@ function loadScript(src) {
               </div>
             ))}
 
-            {/* Date and Time */}
             <div>
               <label className="block text-sm font-medium text-gray-700">Date</label>
               <div className="relative">
@@ -194,7 +199,6 @@ function loadScript(src) {
               </div>
             </div>
 
-            {/* Display Price */}
             <div>
               <label className="block text-sm font-medium text-gray-700">Price</label>
               <input
@@ -205,7 +209,6 @@ function loadScript(src) {
               />
             </div>
 
-            {/* Buttons */}
             <div className="flex flex-wrap justify-between mt-6 gap-2">
               <button
                 onClick={handleSaveDraft}
