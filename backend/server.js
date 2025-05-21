@@ -21,9 +21,10 @@ const app = express();
 
 // Middleware
 app.use(cors());
+
+// Use express.json() ONLY (no need for bodyParser.json() since express has it built-in now)
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // Serve static files (e.g., HTML success page)
 app.use(express.static(path.join(__dirname, 'public'))); // Make sure /public/success.html exists
@@ -36,10 +37,10 @@ app.use('/api/orders', orderRoutes);
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 })
-.then(() => console.log('✅ MongoDB connected'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 // Razorpay Instance
 const razorpay = new Razorpay({
@@ -50,7 +51,7 @@ const razorpay = new Razorpay({
 // File read/write helpers
 const readData = () => {
   if (fs.existsSync('orders.json')) {
-    const data = fs.readFileSync('orders.json');
+    const data = fs.readFileSync('orders.json', 'utf-8');
     return JSON.parse(data);
   }
   return [];
@@ -68,50 +69,59 @@ if (!fs.existsSync('orders.json')) {
 // 🧾 Create Razorpay Order
 app.post('/create-order', async (req, res) => {
   try {
-    const { amount, currency = 'INR', notes } = req.body;
+    const { amount } = req.body;
+    console.log('Received amount:', amount);
 
-    const receipt = 'rcpt_' + Date.now(); // Unique receipt
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      return res.status(400).json({ error: 'Valid amount is required' });
+    }
+
+    const parsedAmount = Math.floor(Number(amount)); // Ensure integer
 
     const options = {
-      amount: parseInt(amount) , // Razorpay uses paise
-      currency,
-      receipt,
-      notes,
+      amount: parsedAmount * 100, // paise
+      currency: 'INR',
+      receipt: 'receipt#' + Math.floor(Math.random() * 1000000),
     };
 
     const order = await razorpay.orders.create(options);
 
+    // Save locally
     const orders = readData();
     orders.push({
       order_id: order.id,
-      amount: order.amount,
-      currency: order.currency,
-      receipt: order.receipt,
+      amount: parsedAmount,
       status: 'created',
     });
     writeData(orders);
 
-    res.json(order);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error creating order');
+    return res.json(order);
+  } catch (err) {
+    console.error('❌ Error in /create-order:', err.message);
+    return res.status(500).json({ error: 'Error creating order' });
   }
 });
 
-// ✅ Verify Payment (fixed)
-app.post('/verify-payment', (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
-  const secret = razorpay.key_secret;
-  const body = `${razorpay_order_id}|${razorpay_payment_id}`;
 
+// ✅ Verify Payment
+app.post('/verify-payment', (req, res) => {
   try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({ status: 'error', message: 'Missing payment verification parameters' });
+    }
+
+    const secret = razorpay.key_secret;
+    const body = `${razorpay_order_id}|${razorpay_payment_id}`;
+
     const expectedSignature = crypto
       .createHmac('sha256', secret)
       .update(body)
       .digest('hex');
 
     const orders = readData();
-    const order = orders.find(o => o.order_id === razorpay_order_id);
+    const order = orders.find((o) => o.order_id === razorpay_order_id);
 
     if (!order) {
       return res.status(404).json({ status: 'error', message: 'Order not found' });
@@ -120,24 +130,24 @@ app.post('/verify-payment', (req, res) => {
     if (expectedSignature === razorpay_signature) {
       order.status = 'paid';
       order.payment_id = razorpay_payment_id;
-      console.log("✅ Payment verified successfully");
+      console.log('✅ Payment verified successfully');
     } else {
       order.status = 'failed';
       order.payment_id = razorpay_payment_id;
-      console.log("❌ Payment verification failed - invalid signature");
+      console.log('❌ Payment verification failed - invalid signature');
     }
 
-    writeData(orders); // Save updated status
-    res.status(200).json({ status: order.status }); // Send response to frontend
+    writeData(orders); // Save updated order status
+    return res.status(200).json({ status: order.status });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ status: 'error', message: 'Error verifying payment' });
+    return res.status(500).json({ status: 'error', message: 'Error verifying payment' });
   }
 });
 
-// ✅ Optional Success Page Route
+// Optional success page route
 app.get('/payment-success', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'success.html')); // success.html should exist in /public
+  res.sendFile(path.join(__dirname, 'public', 'success.html'));
 });
 
 // Start Server

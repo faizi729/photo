@@ -3,15 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Clock, Calendar } from 'lucide-react';
 import { products } from '../data/productData';
 import img from "../assets/logo4.png"
-function loadScript(src) {
-  return new Promise((resolve) => {
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-}
+ 
 
 export default function WeddingInvitationForm() {
   const { id } = useParams();
@@ -39,7 +31,7 @@ export default function WeddingInvitationForm() {
     window.alert('Draft saved successfully!');
   };
 
-  const displayRazorpay = async () => {
+ const displayRazorpay = async () => {
   const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
 
   if (!res) {
@@ -47,23 +39,32 @@ export default function WeddingInvitationForm() {
     return;
   }
 
-  const amount = parseInt(product.price); // Amount in INR
+  const amount = product.price;
 
-  const data = await fetch('https://photo-n1fe.onrender.com/create-order', {
+  // Create order on backend
+  const orderRes = await fetch('https://photo-n1fe.onrender.com/create-order', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ amount })
-  }).then((t) => t.json());
+    body: JSON.stringify({ amount: amount })
+  });
 
+  const data = await orderRes.json();
+  console.log("✅ Razorpay Order Response:", data);
+
+  if (!data?.id) {
+    throw new Error(`❌ Failed to create order: ${JSON.stringify(data)}`);
+  }
+
+  // Razorpay options
   const options = {
-    key: 'rzp_test_WcGyN97AYAiHPE',
-    amount: amount * 100,
+    key: 'rzp_test_WcGyN97AYAiHPE', // Replace with your actual test key
+    amount: data.amount, // Amount in paise
     currency: data.currency,
     name: 'Eye Imagination',
     description: 'Best E-invitation provider',
-    image: img,
+    image: img, // your image URL or import
     order_id: data.id,
     handler: async function (response) {
       const verifyRes = await fetch('https://photo-n1fe.onrender.com/verify-payment', {
@@ -81,10 +82,10 @@ export default function WeddingInvitationForm() {
       const result = await verifyRes.json();
 
       if (result.status === 'paid') {
-        alert("Payment Successful! 🎉");
-        window.location.href = '/payment-success'; // Or route using React Router
+        alert("✅ Payment Successful! 🎉");
+        window.location.href = '/payment-success'; // Or navigate with React Router
       } else {
-        alert("Payment verification failed ❌");
+        alert("❌ Payment verification failed.");
       }
     },
     notes: {
@@ -98,6 +99,18 @@ export default function WeddingInvitationForm() {
   const paymentObject = new window.Razorpay(options);
   paymentObject.open();
 };
+
+// Load Razorpay script utility (keep this in same file or utils.js)
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
 
 
   return (
