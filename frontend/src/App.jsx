@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import Form from "./pages/Form";
 import Demo from "./pages/Demo";
 import ProductGrid from "./pages/Gift";
+import PaymentSuccess from "./pages/Paymentsuccess";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/form/:id" element={<Form />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+
           </Routes>
         </main>
         <Footer />

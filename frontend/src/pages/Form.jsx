@@ -58,7 +58,7 @@ export default function WeddingInvitationForm() {
   }).then((t) => t.json());
 
   const options = {
-    key: 'rzp_live_tfb18vO4HgubFA',
+    key: 'rzp_test_WcGyN97AYAiHPE',
     amount: amount * 100,
     currency: data.currency,
     name: 'Eye Imagination',
