@@ -1,6 +1,6 @@
-import mongoose,{Schema} from "mongoose"
+import mongoose, { Schema } from "mongoose";
 
-const invitationSchema = new mongoose.Schema({
+const invitationSchema = new Schema({
   initials: String,
   coupleName: String,
   venue: String,
@@ -11,5 +11,5 @@ const invitationSchema = new mongoose.Schema({
   timestamp: String
 });
 
-Invitation = mongoose.model('Invitation', invitationSchema);
-export default Invitation
+const Invitation = mongoose.model("Invitation", invitationSchema);
+export default Invitation;
