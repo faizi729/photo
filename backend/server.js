@@ -99,7 +99,7 @@ app.post('/create-order', async (req, res) => {
 });
 
 // ✅ Verify Payment
-app.post('/verify-payment', (req, res) => {
+app.post('/verify-payment', (req, res,next) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
   const secret = razorpay.key_secret;
   const body = `${razorpay_order_id}|${razorpay_payment_id}`;
@@ -118,7 +118,9 @@ app.post('/verify-payment', (req, res) => {
     }
 
     if (expectedSignature === razorpay_signature) {
-      order.status = 'paid';
+      if(order.status = 'paid'){
+        window.location.href = "/success.html"
+      }
       order.payment_id = razorpay_payment_id;
       console.log("✅ Payment verified successfully");
     } else {
@@ -133,12 +135,13 @@ app.post('/verify-payment', (req, res) => {
     console.error(error);
     res.status(500).json({ status: 'error', message: 'Error verifying payment' });
   }
+  next
 });
 
 
 // ✅ Optional Success Page Route
 app.get('/payment-success', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'success.html')); // Make sure success.html exists
+  res.sendFile(path.join(__dirname, 'public', '/success.html')); // Make sure success.html exists
 });
 
 // Start Server
