@@ -99,7 +99,7 @@ app.post('/create-order', async (req, res) => {
 });
 
 // ✅ Verify Payment
-app.post('/verify-payment', (req, res,next) => {
+app.post('/verify-payment', (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
   const secret = razorpay.key_secret;
   const body = `${razorpay_order_id}|${razorpay_payment_id}`;
@@ -135,7 +135,7 @@ app.post('/verify-payment', (req, res,next) => {
     console.error(error);
     res.status(500).json({ status: 'error', message: 'Error verifying payment' });
   }
-  next
+  
 });
 
 
