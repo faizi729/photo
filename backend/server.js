@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files (e.g., HTML success page)
-app.use(express.static(path.join(__dirname, 'public'))); // You can serve success.html from /public
+app.use(express.static(path.join(__dirname, 'public'))); // Make sure /public/success.html exists
 
 // Routes
 app.use('/api/users', userRoutes);
@@ -70,10 +70,10 @@ app.post('/create-order', async (req, res) => {
   try {
     const { amount, currency = 'INR', notes } = req.body;
 
-    const receipt = 'rcpt_' + Date.now(); // ✅ Ensure unique receipt
+    const receipt = 'rcpt_' + Date.now(); // Unique receipt
 
     const options = {
-      amount: parseInt(amount) * 100, // Razorpay uses paise
+      amount: parseInt(amount) , // Razorpay uses paise
       currency,
       receipt,
       notes,
@@ -98,7 +98,7 @@ app.post('/create-order', async (req, res) => {
   }
 });
 
-// ✅ Verify Payment
+// ✅ Verify Payment (fixed)
 app.post('/verify-payment', (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
   const secret = razorpay.key_secret;
@@ -118,9 +118,7 @@ app.post('/verify-payment', (req, res) => {
     }
 
     if (expectedSignature === razorpay_signature) {
-      if(order.status = 'paid'){
-        window.location.href = "/payment-success"
-      }
+      order.status = 'paid';
       order.payment_id = razorpay_payment_id;
       console.log("✅ Payment verified successfully");
     } else {
@@ -129,19 +127,17 @@ app.post('/verify-payment', (req, res) => {
       console.log("❌ Payment verification failed - invalid signature");
     }
 
-    writeData(orders); // ⬅️ Always update the file
-    res.status(200).json({ status: order.status });
+    writeData(orders); // Save updated status
+    res.status(200).json({ status: order.status }); // Send response to frontend
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: 'error', message: 'Error verifying payment' });
   }
-  
 });
-
 
 // ✅ Optional Success Page Route
 app.get('/payment-success', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', '/success.html')); // Make sure success.html exists
+  res.sendFile(path.join(__dirname, 'public', 'success.html')); // success.html should exist in /public
 });
 
 // Start Server

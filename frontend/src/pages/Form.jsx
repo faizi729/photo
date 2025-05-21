@@ -40,43 +40,65 @@ export default function WeddingInvitationForm() {
   };
 
   const displayRazorpay = async () => {
-    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+  const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
 
-    if (!res) {
-      alert('Razorpay SDK failed to load.');
-      return;
-    }
+  if (!res) {
+    alert('Razorpay SDK failed to load.');
+    return;
+  }
 
-    const amount = parseInt(product.price)  ; // Razorpay amount in paise
+  const amount = parseInt(product.price); // Amount in INR
 
-    const data = await fetch('https://photo-n1fe.onrender.com/create-order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ amount })
-    }).then((t) => t.json());
+  const data = await fetch('https://photo-n1fe.onrender.com/create-order', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ amount })
+  }).then((t) => t.json());
 
-    const options = {
-      key: 'rzp_live_tfb18vO4HgubFA',
-      amount: amount,
-      currency: data.currency,
-      name: 'Eye Imagination',
-      description: 'Best E-invitation provider',
-      image: {img},
-      order_id: data.id,
-      callback_url: 'https://photo-n1fe.onrender.com/verify-payment',
-      notes: {
-        address: 'Raipur'
-      },
-      theme: {
-        color: '#3399cc'
+  const options = {
+    key: 'rzp_live_tfb18vO4HgubFA',
+    amount: amount * 100,
+    currency: data.currency,
+    name: 'Eye Imagination',
+    description: 'Best E-invitation provider',
+    image: img,
+    order_id: data.id,
+    handler: async function (response) {
+      const verifyRes = await fetch('https://photo-n1fe.onrender.com/verify-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+        }),
+      });
+
+      const result = await verifyRes.json();
+
+      if (result.status === 'paid') {
+        alert("Payment Successful! 🎉");
+        window.location.href = '/payment-success'; // Or route using React Router
+      } else {
+        alert("Payment verification failed ❌");
       }
-    };
-
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+    },
+    notes: {
+      address: 'Raipur'
+    },
+    theme: {
+      color: '#3399cc'
+    }
   };
+
+  const paymentObject = new window.Razorpay(options);
+  paymentObject.open();
+};
+
 
   return (
     <div className="mt-24 mb-20 px-4 sm:px-6 lg:px-8">
