@@ -105,7 +105,7 @@ const displayRazorpay = async (price) => {
     }
 
     const options = {
-      key: "rzp_live_tfb18vO4HgubFA",
+      key: "rzp_test_WcGyN97AYAiHPE",
       amount,
       currency: data.currency,
       name: "Eye Imagination",
