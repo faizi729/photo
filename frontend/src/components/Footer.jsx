@@ -16,27 +16,7 @@ const Footer = () => {
       <div className="w-full h-48" style={customBgStyle}></div>
 
       {/* Newsletter Subscription Section */}
-      <div className="w-full max-w-5xl mx-auto px-6 -mt-16 bg-white shadow-md rounded-lg p-8 z-10">
-        <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-semibold text-gray-800" style={customFont}>
-            Subscribe Newsletters
-          </h2>
-          <div className="flex items-center space-x-4">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="border border-gray-300 rounded-md px-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              style={customFont}
-            />
-            <button
-              className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
-              style={customFont}
-            >
-              Subscribe Now
-            </button>
-          </div>
-        </div>
-      </div>
+       
 
       {/* Navigation Links and Social Media Icons */}
       <div className="w-full max-w-5xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-8">

@@ -18,13 +18,14 @@ const Services = () => {
     { id: 4, title: 'Wedding Invitation (WD-4)', price: '₹350', video: card4, alt: 'Wedding Invitation WD-4' },
   ];
 
-  const ProductCard = ({ title, price, video, alt }) => (
+  const ProductCard = ({ title, video, alt }) => (
     <div className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow w-full max-w-[300px] mx-auto">
       <video 
         src={video}
         muted
         autoPlay
         loop
+        alt={title}
         playsInline
         className="w-[250px] h-auto object-cover rounded-md"
       />
@@ -32,7 +33,7 @@ const Services = () => {
         <h1 className="text-lg font-medium text-gray-800">{title}</h1>
       </div>
       <Link to="/services">
-        <button className="mt-4 w-44 px-2 py-3 bg-amber-950 text-white rounded-md cursor-pointer hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600">
+        <button className="mt-4 w-44 px-2 py-3 bg-pink-500 text-white rounded-md cursor-pointer hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600">
           check Pricing
         </button>
       </Link>

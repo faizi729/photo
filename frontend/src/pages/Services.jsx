@@ -57,6 +57,7 @@ const ProductCard = ({ id, title, price, video, alt }) => (
       autoPlay
       loop
       muted
+      alt={alt}
     />
     <div className="flex flex-col items-center mt-3">
       <h1 className="text-lg font-medium text-gray-800">{title}</h1>
@@ -65,7 +66,7 @@ const ProductCard = ({ id, title, price, video, alt }) => (
     <div className="flex flex-row items-center mt-3">
       <Link to={`/form/${id}`}>
         <button
-          className="mt-4 w-56 flex flex-row justify-center gap-2 px-4 py-3 bg-amber-950 text-white rounded-md cursor-pointer hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
+          className="mt-4 w-56 flex flex-row justify-center gap-2 px-4 py-3 bg-pink-500 text-white rounded-md cursor-pointer hover:bg-pink-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
         >
           Buy Now <ShoppingBasket />
         </button>
@@ -123,7 +124,7 @@ const Services = () => {
           </p>
         </div>
         <div className="absolute top-[80%] left-1/2 transform -translate-x-1/2 text-center">
-          <button className="bg-amber-950 px-6 sm:px-10 py-2 sm:py-3 text-white rounded-md hover:bg-amber-800 transition-colors">
+          <button className="bg-pink-500 px-6 sm:px-10 py-2 sm:py-3 text-white rounded-md hover:bg-pink-700 transition-colors">
             Check Out Now!
           </button>
         </div>
