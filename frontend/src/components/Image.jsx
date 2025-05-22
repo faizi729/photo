@@ -1,16 +1,17 @@
 import React from 'react'
-import img from "../assets/home-img.png"
+
+const img = "https://res.cloudinary.com/dqwgwxflp/image/upload/v1747906485/home-img_zbas9n.png"
 
 const Image = () => {
   return (
     <section className="h-screen w-full">
-    <img
-      src={img}
-      alt="hero"
-      className="w-full h-full object-cover object-center"
-    />
-  </section>
-  )
+      <img
+        src={img}
+        alt="hero"
+        className="w-full h-full object-cover object-center"
+      />
+    </section>
+  );
 }
 
-export default Image
+export default Image;
