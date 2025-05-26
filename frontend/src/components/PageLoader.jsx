@@ -10,9 +10,9 @@ export default function PageLoader({ children }) {
     setLoading(true);
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 3500); // 2 seconds loader
+    }, 3500);  
     return () => clearTimeout(timeout);
-  }, [location.pathname]); // triggers on route change
+  }, [location.pathname]);  
 
   if (loading) {
     return (
